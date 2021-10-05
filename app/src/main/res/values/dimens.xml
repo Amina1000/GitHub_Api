@@ -3,4 +3,12 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="padding_xs">20dp</dimen>
+    <dimen name="margin_xxxl">200dp</dimen>
+    <dimen name="margin_l">48dp</dimen>
+    <dimen name="margin_top">16dp</dimen>
+    <dimen name="margin_bottom">16dp</dimen>
+    <dimen name="margin_start">16dp</dimen>
+    <dimen name="margin_end">16dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="font_size_header_l">24sp</dimen>
 </resources>

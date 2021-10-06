@@ -31,7 +31,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(
             login,
-            GithubUsersRepo(),
+            App.instance.usersRepo,
             App.instance.router
         )
     }

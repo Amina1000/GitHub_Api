@@ -1,4 +1,4 @@
-package com.cocos.develop.coshub.ui.main
+package com.cocos.develop.coshub.ui.common
 
 /**
  * homework com.cocos.develop.coshub.ui.main

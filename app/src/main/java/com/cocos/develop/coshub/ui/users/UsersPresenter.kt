@@ -33,12 +33,14 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
+        viewState.showProgressBar()
         loadData()
     }
 
     private fun loadData() {
         val users = usersRepo.getUsers()
         usersListPresenter.users.addAll(users)
+        viewState.hideProgressBar()
         usersListPresenter.itemClickListener = { itemView ->
             router.navigateTo(AndroidScreens().profile(users[itemView.pos].login))
         }

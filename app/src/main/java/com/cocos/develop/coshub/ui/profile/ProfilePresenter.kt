@@ -16,15 +16,16 @@ class ProfilePresenter(
     private val router: Router
 ) : MvpPresenter<ProfileView>() {
 
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        viewState.showProgressBar()
         setUser()
     }
 
     private fun setUser() {
         login?.let {
             viewState.setUser(usersRepo.getUser(login))
+            viewState.hideProgressBar()
         }
     }
 

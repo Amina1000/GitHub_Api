@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
 import com.cocos.develop.coshub.domain.GithubUser
 import com.cocos.develop.coshub.domain.GithubUsersRepo
-import com.cocos.develop.coshub.ui.main.BackButtonListener
+import com.cocos.develop.coshub.ui.common.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -48,6 +49,14 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
 
     override fun setUser(user: GithubUser) {
        binding.tvLogin.text = user.login
+    }
+
+    override fun showProgressBar() {
+        binding.loadingLayout.progressBar.isVisible = true
+    }
+
+    override fun hideProgressBar() {
+        binding.loadingLayout.progressBar.isVisible = false
     }
 
 

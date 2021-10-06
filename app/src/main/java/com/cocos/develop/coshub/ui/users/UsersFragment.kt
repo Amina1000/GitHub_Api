@@ -3,11 +3,12 @@ package com.cocos.develop.coshub.ui.users
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.databinding.FragmentUsersBinding
 import com.cocos.develop.coshub.domain.GithubUsersRepo
-import com.cocos.develop.coshub.ui.main.BackButtonListener
+import com.cocos.develop.coshub.ui.common.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -40,6 +41,14 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun showProgressBar() {
+        vb?.loadingLayout?.progressBar?.isVisible = true
+    }
+
+    override fun hideProgressBar() {
+        vb?.loadingLayout?.progressBar?.isVisible = false
     }
 
     override fun backPressed() = presenter.backPressed()

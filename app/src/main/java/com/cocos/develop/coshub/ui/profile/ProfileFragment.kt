@@ -11,8 +11,8 @@ import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
 import com.cocos.develop.coshub.domain.GithubUser
-import com.cocos.develop.coshub.domain.GithubUsersRepo
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.errorMessage
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -57,6 +57,10 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
 
     override fun hideProgressBar() {
         binding.loadingLayout.progressBar.isVisible = false
+    }
+
+    override fun showErrorMessage(message:String?) {
+        errorMessage(context,String.format("%s\n%s",getString(R.string.error_profile),message.toString()))
     }
 
 

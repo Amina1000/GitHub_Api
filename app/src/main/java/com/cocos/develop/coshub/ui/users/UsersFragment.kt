@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocos.develop.coshub.App
+import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentUsersBinding
-import com.cocos.develop.coshub.domain.GithubUsersRepo
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.errorMessage
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -18,7 +19,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), App.instance.router) }
+    private val presenter: UsersPresenter by moxyPresenter { UsersPresenter(App.instance.usersRepo, App.instance.router) }
     private var adapter: UsersAdapter? = null
 
     private var vb: FragmentUsersBinding? = null
@@ -49,6 +50,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun hideProgressBar() {
         vb?.loadingLayout?.progressBar?.isVisible = false
+    }
+
+    override fun showErrorMessage(message:String?) {
+        errorMessage(context,String.format("%s\n%s",getString(R.string.error_loading),message.toString()))
     }
 
     override fun backPressed() = presenter.backPressed()

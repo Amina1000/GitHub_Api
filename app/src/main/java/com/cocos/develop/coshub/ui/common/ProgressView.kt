@@ -20,4 +20,8 @@ interface ProgressView {
      * Скрывает прогрессбар
      */
     fun hideProgressBar()
+    /**
+     * Выводим сообщение об ошибке
+     */
+    fun showErrorMessage(message:String?)
 }

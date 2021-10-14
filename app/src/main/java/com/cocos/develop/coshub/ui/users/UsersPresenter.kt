@@ -2,8 +2,8 @@ package com.cocos.develop.coshub.ui.users
 
 import com.cocos.develop.coshub.AndroidScreens
 import com.cocos.develop.coshub.domain.*
+import com.cocos.develop.coshub.rx.SchedulerProvider
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
@@ -28,6 +28,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
         }
     }
 
+    private val schedulerProvider: SchedulerProvider = SchedulerProvider()
     val usersListPresenter = UsersListPresenter()
     private var currentDisposable = CompositeDisposable()
 
@@ -40,7 +41,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
 
     private fun loadData() {
         currentDisposable.add(usersRepo.githubUsers
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.ui())
             .subscribe(
                 {appState-> renderData(appState)},
                 {error-> viewState.showErrorMessage(error.message)}

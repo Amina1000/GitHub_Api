@@ -1,7 +1,7 @@
 package com.cocos.develop.coshub
 
 import android.app.Application
-import com.cocos.develop.coshub.domain.GithubUsersRepo
+import com.cocos.develop.coshub.domain.GithubUsersRepoImpl
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 
@@ -27,7 +27,7 @@ class App:Application() {
 
 
     // репозиторий
-    val usersRepo = GithubUsersRepo()
+    val usersRepo = GithubUsersRepoImpl()
 
     override fun onCreate() {
         super.onCreate()

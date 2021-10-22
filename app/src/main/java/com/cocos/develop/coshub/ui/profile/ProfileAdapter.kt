@@ -13,8 +13,9 @@ import com.cocos.develop.coshub.ui.utils.setTint
  * @author Amina
  * 21.10.2021
  */
-class ProfileAdapter(private val repoList:List<UsersRepository>) :RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
+class ProfileAdapter(private val presenter: ProfilePresenter) :RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
 
+    private val repoList = presenter.userRepoList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             ItemRepositoriesBinding.inflate(
@@ -40,6 +41,7 @@ class ProfileAdapter(private val repoList:List<UsersRepository>) :RecyclerView.A
                     imageViewIngBtnAddToFavorites.setOnClickListener {
                         userRepository.likeCounter =
                             imageViewIngBtnAddToFavorites.setTint(userRepository.likeCounter)
+                        presenter.onLikeClick(userRepository.likeCounter)
                     }
                 }
             }

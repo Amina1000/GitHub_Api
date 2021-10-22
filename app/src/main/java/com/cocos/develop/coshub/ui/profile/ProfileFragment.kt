@@ -33,11 +33,11 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(
             login,
-            requireActivity().app.usersRepo,
-            requireActivity().app.router
+            requireActivity().app
         )
     }
     private var adapter: ProfileAdapter? = null
+    private var countLike:Int =0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
 
     private fun initView() {
         binding.repositoriesRv.layoutManager = LinearLayoutManager(context)
-        adapter = ProfileAdapter(presenter.userRepoList)
+        adapter = ProfileAdapter(presenter)
         binding.repositoriesRv.adapter = adapter
         binding.likeButton.setOnClickListener {
             //presenter.onFavoriteClick(it.isEnabled)
@@ -72,6 +72,11 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
         adapter?.notifyDataSetChanged()
     }
 
+    override fun setCountLike() {
+        countLike = presenter.setLikeCount(countLike)
+        binding.counterTextView.text = countLike.toString()
+    }
+
     override fun showProgressBar() {
         binding.loadingLayout.progressBar.isVisible = true
     }
@@ -86,6 +91,5 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
             String.format("%s\n%s", getString(R.string.error_profile), message.toString())
         )
     }
-
 
 }

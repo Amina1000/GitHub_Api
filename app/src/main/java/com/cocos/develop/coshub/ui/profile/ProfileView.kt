@@ -16,4 +16,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface ProfileView: MvpView, ProgressView {
     fun setUser(user: GithubUser)
     fun updateList()
+    fun setCountLike()
 }

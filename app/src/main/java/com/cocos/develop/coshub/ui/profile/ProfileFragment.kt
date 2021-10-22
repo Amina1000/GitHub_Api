@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
 import com.cocos.develop.coshub.domain.GithubUser
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -24,18 +25,19 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
         fun newInstance(login: String) =
             ProfileFragment().apply { arguments = bundleOf(ARG_USER to login) }
     }
+
     private val login: String? by lazy {
-        arguments?.getString(ARG_USER,"login 1")
+        arguments?.getString(ARG_USER, "login 1")
     }
     private val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(
             login,
-            App.instance.usersRepo,
-            App.instance.router
+            requireActivity().app.usersRepo,
+            requireActivity().app.router
         )
     }
-
+    private var adapter: ProfileAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,10 +47,29 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        binding.repositoriesRv.layoutManager = LinearLayoutManager(context)
+        adapter = ProfileAdapter(presenter.userRepoList)
+        binding.repositoriesRv.adapter = adapter
+        binding.likeButton.setOnClickListener {
+            //presenter.onFavoriteClick(it.isEnabled)
+        }
+    }
+
     override fun backPressed() = presenter.backPressed()
 
     override fun setUser(user: GithubUser) {
-       binding.tvLogin.text = user.login
+        binding.tvLogin.text = user.login
+        binding.likeButton.isEnabled = user.like
+    }
+
+    override fun updateList() {
+        adapter?.notifyDataSetChanged()
     }
 
     override fun showProgressBar() {
@@ -59,8 +80,11 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
         binding.loadingLayout.progressBar.isVisible = false
     }
 
-    override fun showErrorMessage(message:String?) {
-        errorMessage(context,String.format("%s\n%s",getString(R.string.error_profile),message.toString()))
+    override fun showErrorMessage(message: String?) {
+        errorMessage(
+            context,
+            String.format("%s\n%s", getString(R.string.error_profile), message.toString())
+        )
     }
 
 

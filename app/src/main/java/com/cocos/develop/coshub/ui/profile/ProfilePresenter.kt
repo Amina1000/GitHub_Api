@@ -1,9 +1,10 @@
 package com.cocos.develop.coshub.ui.profile
 
 import com.cocos.develop.coshub.domain.GithubUsersRepo
+import com.cocos.develop.coshub.domain.UsersRepository
 import com.cocos.develop.coshub.rx.SchedulerProvider
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
 /**
@@ -22,25 +23,32 @@ class ProfilePresenter(
         super.onFirstViewAttach()
         viewState.showProgressBar()
         setUser()
+        setRepoList()
     }
 
-    private var currentDisposable: Disposable? = null
-        set(value) {
-            field?.takeIf { !it.isDisposed }?.dispose()
-            field = value
-        }
-
+    private var currentDisposable = CompositeDisposable()
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
+    val userRepoList = mutableListOf<UsersRepository>()
 
     private fun setUser() {
         login?.let {
-            currentDisposable = usersRepoImpl.githubUser(login)
+            currentDisposable.add(usersRepoImpl.githubUser(login)
                 .observeOn(schedulerProvider.ui())
                 .subscribe {
                     viewState.hideProgressBar()
                     viewState.setUser(it)
-                }
+                })
         }
+
+    }
+
+    private fun setRepoList(){
+        currentDisposable.add(usersRepoImpl.userRepos
+            .observeOn(schedulerProvider.ui())
+            .subscribe {
+                userRepoListIn-> userRepoList.addAll(userRepoListIn)
+                viewState.updateList()
+            })
     }
 
     fun backPressed(): Boolean {
@@ -49,7 +57,7 @@ class ProfilePresenter(
     }
 
     override fun onDestroy() {
-        currentDisposable = null
+        currentDisposable.clear()
         super.onDestroy()
     }
 }

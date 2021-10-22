@@ -15,4 +15,5 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ProfileView: MvpView, ProgressView {
     fun setUser(user: GithubUser)
+    fun updateList()
 }

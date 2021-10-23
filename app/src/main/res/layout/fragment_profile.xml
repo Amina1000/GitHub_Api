@@ -26,7 +26,7 @@
             android:id="@+id/pic_image_view"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHeight_percent="0.2"
             android:src="@drawable/cocos_hub"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,19 +40,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pic_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/like_image_view"
             tools:listitem="@layout/item_repositories" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/counter_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxs"
             android:layout_marginBottom="@dimen/margin_bottom"
             android:text="@string/counter_text"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/like_image_view"
             app:layout_constraintTop_toTopOf="@+id/like_image_view" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/like_image_view"
             android:layout_width="wrap_content"
@@ -63,21 +63,19 @@
             android:contentDescription="@string/like_description_fab"
             android:src="@drawable/ic_baseline_pets_24"
             android:tint="@color/secondaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pic_image_view" />
 
         <ToggleButton
             android:id="@+id/like_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_end"
-            android:layout_marginBottom="@dimen/margin_bottom"
-            android:clickable="true"
-            android:focusable="true"
             android:background="@drawable/ic_baseline_favorite_border_24"
             android:backgroundTint="@color/secondaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loading_layout"
             app:layout_constraintWidth_percent="0.15" />
 
         <include

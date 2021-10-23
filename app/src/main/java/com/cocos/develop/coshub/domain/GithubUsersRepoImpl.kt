@@ -3,6 +3,7 @@ package com.cocos.develop.coshub.domain
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 /**
  * homework com.cocos.develop.coshub.domain
@@ -10,6 +11,8 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
  * @author Amina
  * 04.10.2021
  */
+const val LOADING_DELAY = 1000L
+
 class GithubUsersRepoImpl:GithubUsersRepo {
 
     private val usersList = listOf(
@@ -31,6 +34,7 @@ class GithubUsersRepoImpl:GithubUsersRepo {
     private val behaviorSubject = BehaviorSubject.createDefault<AppState>(AppState.Success(usersList))
 
     override val githubUsers: Observable<AppState> = behaviorSubject
+        get() = field.delay(LOADING_DELAY, TimeUnit.MILLISECONDS)
 
     override val userRepos: Single<List<UsersRepository>> = Single.just(userRepoList)
 

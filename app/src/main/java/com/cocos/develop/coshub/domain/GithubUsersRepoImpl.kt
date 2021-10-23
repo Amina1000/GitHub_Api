@@ -32,11 +32,10 @@ class GithubUsersRepoImpl:GithubUsersRepo {
 
     override val githubUsers: Observable<AppState> = behaviorSubject
 
-    override val userRepos: Single<List<UsersRepository>>
-        get() = Single.just(userRepoList)
+    override val userRepos: Single<List<UsersRepository>> = Single.just(userRepoList)
 
-    override fun githubUser(login: String) : Observable<GithubUser>{
-        return Observable.just(GithubUser(login))
+    override fun githubUser(login: String) : Single<GithubUser>{
+        return Single.just(GithubUser(login))
     }
 
 

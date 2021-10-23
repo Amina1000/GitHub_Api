@@ -13,6 +13,6 @@ interface GithubUsersRepo {
 
     val githubUsers: Observable<AppState>
     val userRepos: Single<List<UsersRepository>>
-    fun githubUser(login: String) : Observable<GithubUser>
+    fun githubUser(login: String) : Single<GithubUser>
 
 }

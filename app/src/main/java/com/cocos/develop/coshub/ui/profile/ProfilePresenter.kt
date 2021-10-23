@@ -39,9 +39,9 @@ class ProfilePresenter(
         login?.let {
             currentDisposable.add(usersRepoImpl.githubUser(login)
                 .observeOn(schedulerProvider.ui())
-                .subscribe {
+                .subscribe {gitUser->
                     viewState.hideProgressBar()
-                    viewState.setUser(it)
+                    viewState.setUser(gitUser)
                 })
         }
 

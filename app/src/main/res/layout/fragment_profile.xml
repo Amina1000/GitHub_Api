@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_login"
+            android:id="@+id/login_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,10 +30,10 @@
             android:src="@drawable/cocos_hub"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_login" />
+            app:layout_constraintTop_toBottomOf="@+id/login_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/repositories_rv"
+            android:id="@+id/repositories_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_l"

@@ -53,9 +53,9 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     }
 
     private fun initView() {
-        binding.repositoriesRv.layoutManager = LinearLayoutManager(context)
+        binding.repositoriesRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ProfileAdapter(presenter)
-        binding.repositoriesRv.adapter = adapter
+        binding.repositoriesRecyclerView.adapter = adapter
         binding.likeButton.setOnClickListener {
             //presenter.onFavoriteClick(it.isEnabled)
         }
@@ -64,7 +64,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     override fun backPressed() = presenter.backPressed()
 
     override fun setUser(user: GithubUser) {
-        binding.tvLogin.text = user.login
+        binding.loginTextView.text = user.login
         binding.likeButton.isEnabled = user.like
     }
 

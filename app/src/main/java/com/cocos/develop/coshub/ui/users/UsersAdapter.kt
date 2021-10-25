@@ -37,7 +37,7 @@ class UsersAdapter(private val presenter: UserListPresenter) :
         override var pos = -1
 
         override fun setLogin(text: String) = with(vb) {
-            tvLogin.text = text
+            loginTextView.text = text
         }
     }
 

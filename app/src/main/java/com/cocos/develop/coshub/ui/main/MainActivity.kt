@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.cocos.develop.coshub.AndroidScreens
-import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.ActivityScrollingBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
@@ -49,7 +48,7 @@ class MainActivity : MvpAppCompatActivity(), MainView  {
         // as you specify a parent activity in AndroidManifest.xml.
 
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -1,7 +1,7 @@
 package com.cocos.develop.coshub.domain
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * homework com.cocos.develop.coshub.domain
@@ -11,5 +11,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class GithubUser(
-    var login: String
+    var login: String,
+    var like: Boolean = false
 ) : Parcelable

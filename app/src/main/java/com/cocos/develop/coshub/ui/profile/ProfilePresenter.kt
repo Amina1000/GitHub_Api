@@ -1,9 +1,11 @@
 package com.cocos.develop.coshub.ui.profile
 
-import com.cocos.develop.coshub.domain.GithubUsersRepo
+import com.cocos.develop.coshub.App
+import com.cocos.develop.coshub.domain.MinusLikeEvent
+import com.cocos.develop.coshub.domain.PlusLikeEvent
+import com.cocos.develop.coshub.domain.UsersRepository
 import com.cocos.develop.coshub.rx.SchedulerProvider
-import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
 /**
@@ -14,33 +16,70 @@ import moxy.MvpPresenter
  */
 class ProfilePresenter(
     private val login: String?,
-    private val usersRepoImpl: GithubUsersRepo,
-    private val router: Router
+    app: App
 ) : MvpPresenter<ProfileView>() {
+
+    private val usersRepoImpl = app.usersRepo
+    private val router = app.router
+    private val eventBus = app.eventBus
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.showProgressBar()
         setUser()
+        setRepoList()
     }
 
-    private var currentDisposable: Disposable? = null
-        set(value) {
-            field?.takeIf { !it.isDisposed }?.dispose()
-            field = value
-        }
-
+    private var currentDisposable = CompositeDisposable()
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
+    val userRepoList = mutableListOf<UsersRepository>()
+
 
     private fun setUser() {
         login?.let {
-            currentDisposable = usersRepoImpl.githubUser(login)
+            currentDisposable.add(usersRepoImpl.githubUser(login)
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe {
-                    viewState.hideProgressBar()
-                    viewState.setUser(it)
-                }
+                .subscribe {gitUser->
+                    viewState.setUser(gitUser)
+                })
         }
+
+    }
+
+    private fun setRepoList() {
+        currentDisposable.add(usersRepoImpl.userRepos
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe { userRepoListIn ->
+                viewState.hideProgressBar()
+                userRepoList.addAll(userRepoListIn)
+                viewState.updateList()
+            })
+    }
+
+    fun onLikeClick(likeCounter: Int) {
+        if (likeCounter == 1) {
+            eventBus.post(PlusLikeEvent())
+        } else {
+            eventBus.post(MinusLikeEvent())
+        }
+        viewState.setCountLike()
+    }
+
+    fun setLikeCount(count:Int): Int {
+        var total = 0
+        currentDisposable.add(eventBus.get()
+            .subscribe {
+            if (it is PlusLikeEvent) {
+                total = count +1
+            } else if (it is MinusLikeEvent) {
+                if (count > 0) {
+                    total = count -1
+                }
+            }
+        })
+        return total
     }
 
     fun backPressed(): Boolean {
@@ -49,7 +88,7 @@ class ProfilePresenter(
     }
 
     override fun onDestroy() {
-        currentDisposable = null
+        currentDisposable.clear()
         super.onDestroy()
     }
 }

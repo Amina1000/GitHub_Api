@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.cocos.develop.coshub.AndroidScreens
-import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.ActivityScrollingBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.app
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatActivity
@@ -18,7 +18,7 @@ class MainActivity : MvpAppCompatActivity(), MainView  {
     private lateinit var binding: ActivityScrollingBinding
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
+    private val presenter by moxyPresenter { MainPresenter(app.router, AndroidScreens()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +48,19 @@ class MainActivity : MvpAppCompatActivity(), MainView  {
         // as you specify a parent activity in AndroidManifest.xml.
 
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings_menu_item -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        App.instance.navigatorHolder.setNavigator(navigator)
+        app.navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
-        App.instance.navigatorHolder.removeNavigator()
+        app.navigatorHolder.removeNavigator()
     }
 
     override fun onBackPressed() {

@@ -1,6 +1,7 @@
 package com.cocos.develop.coshub
 
 import android.app.Application
+import com.cocos.develop.coshub.domain.EventBus
 import com.cocos.develop.coshub.domain.GithubUsersRepoImpl
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
@@ -13,10 +14,6 @@ import com.github.terrakok.cicerone.Router
  */
 class App:Application() {
 
-    companion object {
-        lateinit var instance: App
-    }
-
     //Временно до даггера положим это тут
     // навигация
     private val cicerone: Cicerone<Router> by lazy {
@@ -25,13 +22,8 @@ class App:Application() {
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
 
-
+    val eventBus = EventBus
     // репозиторий
     val usersRepo = GithubUsersRepoImpl()
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-    }
 
 }

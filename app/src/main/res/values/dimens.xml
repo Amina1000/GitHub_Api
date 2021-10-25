@@ -11,4 +11,8 @@
     <dimen name="margin_end">16dp</dimen>
     <dimen name="padding">10dp</dimen>
     <dimen name="font_size_header_l">24sp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="radius_corner_xs">8dp</dimen>
+    <dimen name="elevation_xs">4dp</dimen>
+    <dimen name="margin_xxs">8dp</dimen>
 </resources>

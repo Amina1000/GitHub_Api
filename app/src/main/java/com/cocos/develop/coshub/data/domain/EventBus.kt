@@ -1,4 +1,4 @@
-package com.cocos.develop.coshub.domain
+package com.cocos.develop.coshub.data.domain
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject

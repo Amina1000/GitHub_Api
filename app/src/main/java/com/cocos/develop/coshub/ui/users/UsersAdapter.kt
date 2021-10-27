@@ -3,9 +3,10 @@ package com.cocos.develop.coshub.ui.users
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.databinding.ItemUserBinding
-import com.cocos.develop.coshub.domain.UserItemView
-import com.cocos.develop.coshub.domain.UserListPresenter
+import com.cocos.develop.coshub.data.domain.UserItemView
+import com.cocos.develop.coshub.data.domain.UserListPresenter
 
 /**
  * homework com.cocos.develop.coshub.ui.users
@@ -36,8 +37,8 @@ class UsersAdapter(private val presenter: UserListPresenter) :
         UserItemView {
         override var pos = -1
 
-        override fun setLogin(text: String) = with(vb) {
-            loginTextView.text = text
+        override fun setGitUser(gitHunUser: GithubUser) = with(vb) {
+            loginTextView.text = gitHunUser.login.toString()
         }
     }
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cocos.develop.coshub.databinding.ItemRepositoriesBinding
-import com.cocos.develop.coshub.domain.UsersRepository
+import com.cocos.develop.coshub.data.UsersRepository
 import com.cocos.develop.coshub.ui.utils.setTint
 
 /**
@@ -35,8 +35,8 @@ class ProfileAdapter(private val presenter: ProfilePresenter) :RecyclerView.Adap
         fun bind(userRepository: UsersRepository) {
             with(vb) {
                 itemView.apply {
-                    nameTextView.text = userRepository.name
-                    descriptionTextView.text = userRepository.description
+                    nameTextView.text = userRepository.name.toString()
+                    descriptionTextView.text = userRepository.description.toString()
                     imageViewIngBtnAddToFavorites.setTint(userRepository.likeCounter-1)
                     imageViewIngBtnAddToFavorites.setOnClickListener {
                         userRepository.likeCounter =

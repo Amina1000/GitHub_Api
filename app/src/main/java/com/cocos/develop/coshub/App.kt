@@ -1,10 +1,15 @@
 package com.cocos.develop.coshub
 
 import android.app.Application
-import com.cocos.develop.coshub.domain.EventBus
-import com.cocos.develop.coshub.domain.GithubUsersRepoImpl
+import com.cocos.develop.coshub.data.datasource.GitHubApi
+import com.cocos.develop.coshub.data.domain.EventBus
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * homework com.cocos.develop.coshub
@@ -12,6 +17,8 @@ import com.github.terrakok.cicerone.Router
  * @author Amina
  * 05.10.2021
  */
+const val BASE_URL = "https://api.github.com"
+
 class App:Application() {
 
     //Временно до даггера положим это тут
@@ -24,6 +31,19 @@ class App:Application() {
 
     val eventBus = EventBus
     // репозиторий
-    val usersRepo = GithubUsersRepoImpl()
+
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
+    val api: GitHubApi by lazy {
+
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(GitHubApi::class.java)
+    }
 
 }

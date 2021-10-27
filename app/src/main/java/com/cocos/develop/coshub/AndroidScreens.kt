@@ -1,5 +1,6 @@
 package com.cocos.develop.coshub
 
+import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.ui.profile.ProfileFragment
 import com.cocos.develop.coshub.ui.users.UsersFragment
 import com.github.terrakok.cicerone.Screen
@@ -13,10 +14,10 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
  */
 class AndroidScreens : IScreens {
     override fun users() = FragmentScreen { UsersFragment.newInstance() }
-    override fun profile(login: String) = FragmentScreen { ProfileFragment.newInstance(login) }
+    override fun profile(githubUser: GithubUser) = FragmentScreen { ProfileFragment.newInstance(githubUser) }
 }
 
 interface IScreens {
     fun users(): Screen
-    fun profile(login: String): Screen
+    fun profile(githubUser: GithubUser): Screen
 }

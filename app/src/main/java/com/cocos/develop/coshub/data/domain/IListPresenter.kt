@@ -1,7 +1,7 @@
-package com.cocos.develop.coshub.domain
+package com.cocos.develop.coshub.data.domain
 
 /**
- * homework com.cocos.develop.coshub.domain
+ * homework com.cocos.develop.coshub.data.domain
  *
  * @author Amina
  * 04.10.2021

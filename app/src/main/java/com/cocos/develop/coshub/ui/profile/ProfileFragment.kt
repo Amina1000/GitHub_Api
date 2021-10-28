@@ -1,38 +1,42 @@
 package com.cocos.develop.coshub.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
-import com.cocos.develop.coshub.domain.GithubUser
+import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.ui.common.BackButtonListener
 import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
+import com.cocos.develop.coshub.ui.utils.loadInfo
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-const val ARG_USER = "ARG_USER_LOGIN"
+const val GITHUB_USER = "GITHUB_USER"
 
 class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener {
 
     companion object {
-        fun newInstance(login: String) =
-            ProfileFragment().apply { arguments = bundleOf(ARG_USER to login) }
+        fun newInstance(gitHubUser: GithubUser) =
+            ProfileFragment().apply { arguments = bundleOf(GITHUB_USER to gitHubUser) }
     }
 
-    private val login: String? by lazy {
-        arguments?.getString(ARG_USER, "login 1")
+    private val gitHubUser: GithubUser? by lazy {
+        arguments?.getParcelable(GITHUB_USER)
     }
     private val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(
-            login,
+            gitHubUser,
             requireActivity().app
         )
     }
@@ -64,8 +68,9 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     override fun backPressed() = presenter.backPressed()
 
     override fun setUser(user: GithubUser) {
-        binding.loginTextView.text = user.login
+        binding.loginTextView.text = user.login.toString()
         binding.likeButton.isEnabled = user.like
+        binding.picImageView.loadInfo(user.avatarUrl)
     }
 
     override fun updateList() {
@@ -75,6 +80,12 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     override fun setCountLike() {
         countLike = presenter.setLikeCount(countLike)
         binding.counterTextView.text = countLike.toString()
+    }
+
+    override fun openUserRepo(repoUrl: String?) {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(repoUrl)
+        })
     }
 
     override fun showProgressBar() {

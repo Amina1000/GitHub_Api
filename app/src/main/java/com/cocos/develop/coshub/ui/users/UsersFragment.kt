@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentUsersBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
@@ -21,10 +20,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            requireActivity().app.usersRepo,
-            requireActivity().app.router
-        )
+        UsersPresenter(requireActivity().app)
     }
 
     private var adapter: UsersAdapter? = null

@@ -1,6 +1,6 @@
 package com.cocos.develop.coshub.ui.profile
 
-import com.cocos.develop.coshub.domain.GithubUser
+import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.ui.common.ProgressView
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
@@ -17,4 +17,5 @@ interface ProfileView: MvpView, ProgressView {
     fun setUser(user: GithubUser)
     fun updateList()
     fun setCountLike()
+    fun openUserRepo(repoUrl:String?)
 }

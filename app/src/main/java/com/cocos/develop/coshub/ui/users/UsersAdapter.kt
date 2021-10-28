@@ -7,6 +7,7 @@ import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.databinding.ItemUserBinding
 import com.cocos.develop.coshub.data.domain.UserItemView
 import com.cocos.develop.coshub.data.domain.UserListPresenter
+import com.cocos.develop.coshub.ui.utils.loadInfo
 
 /**
  * homework com.cocos.develop.coshub.ui.users
@@ -39,6 +40,10 @@ class UsersAdapter(private val presenter: UserListPresenter) :
 
         override fun setGitUser(gitHunUser: GithubUser) = with(vb) {
             loginTextView.text = gitHunUser.login.toString()
+        }
+
+        override fun imageLoad(url: String?) {
+            vb.avatarImageView.loadInfo(url)
         }
     }
 

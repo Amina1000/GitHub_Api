@@ -90,6 +90,10 @@ class ProfilePresenter(
         return total
     }
 
+    fun openUserRepo(repoUrl:String?){
+        viewState.openUserRepo(repoUrl)
+    }
+
     fun backPressed(): Boolean {
         router.exit()
         return true

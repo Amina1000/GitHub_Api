@@ -1,9 +1,12 @@
 package com.cocos.develop.coshub.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +17,7 @@ import com.cocos.develop.coshub.data.GithubUser
 import com.cocos.develop.coshub.ui.common.BackButtonListener
 import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
+import com.cocos.develop.coshub.ui.utils.loadInfo
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -66,6 +70,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     override fun setUser(user: GithubUser) {
         binding.loginTextView.text = user.login.toString()
         binding.likeButton.isEnabled = user.like
+        binding.picImageView.loadInfo(user.avatarUrl)
     }
 
     override fun updateList() {
@@ -75,6 +80,12 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     override fun setCountLike() {
         countLike = presenter.setLikeCount(countLike)
         binding.counterTextView.text = countLike.toString()
+    }
+
+    override fun openUserRepo(repoUrl: String?) {
+        startActivity(Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(repoUrl)
+        })
     }
 
     override fun showProgressBar() {

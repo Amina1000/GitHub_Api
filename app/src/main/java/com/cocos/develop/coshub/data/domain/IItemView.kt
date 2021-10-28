@@ -13,4 +13,5 @@ interface IItemView {
 }
 interface UserItemView: IItemView {
     fun setGitUser(gitHunUser: GithubUser)
+    fun imageLoad(url:String?)
 }

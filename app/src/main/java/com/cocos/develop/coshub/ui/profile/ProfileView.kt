@@ -17,4 +17,5 @@ interface ProfileView: MvpView, ProgressView {
     fun setUser(user: GithubUser)
     fun updateList()
     fun setCountLike()
+    fun openUserRepo(repoUrl:String?)
 }

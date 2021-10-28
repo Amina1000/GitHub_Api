@@ -30,6 +30,7 @@ class UsersPresenter(app: App) :
             val user = users[view.pos]
             user.let {
                 view.setGitUser(it)
+                view.imageLoad(user.avatarUrl)
             }
         }
     }

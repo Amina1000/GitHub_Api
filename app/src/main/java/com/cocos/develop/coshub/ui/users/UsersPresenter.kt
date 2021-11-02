@@ -2,11 +2,14 @@ package com.cocos.develop.coshub.ui.users
 
 import com.cocos.develop.coshub.AndroidScreens
 import com.cocos.develop.coshub.App
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.domain.AppState
+import com.cocos.develop.coshub.data.domain.NetworkStatusImpl
 import com.cocos.develop.coshub.data.domain.UserItemView
 import com.cocos.develop.coshub.data.domain.UserListPresenter
-import com.cocos.develop.coshub.data.repository.GithubUsersRepoImpl
+import com.cocos.develop.coshub.data.repository.GithubUserRepoCombinedImpl
+import com.cocos.develop.coshub.data.repository.GithubUsersLocalRepoImpl
+import com.cocos.develop.coshub.data.repository.GithubUsersWebRepoImpl
 import com.cocos.develop.coshub.rx.SchedulerProvider
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -36,7 +39,12 @@ class UsersPresenter(app: App) :
     }
 
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepo = GithubUsersRepoImpl(app.api, schedulerProvider)
+    private val usersRepo = GithubUserRepoCombinedImpl(
+        GithubUsersLocalRepoImpl(app.gitHubDB),
+        GithubUsersWebRepoImpl(app.api),
+        NetworkStatusImpl(app),
+        schedulerProvider
+    )
     private val router = app.router
 
     val usersListPresenter = UsersListPresenter()

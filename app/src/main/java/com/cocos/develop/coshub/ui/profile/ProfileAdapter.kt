@@ -1,13 +1,10 @@
 package com.cocos.develop.coshub.ui.profile
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.cocos.develop.coshub.databinding.ItemRepositoriesBinding
-import com.cocos.develop.coshub.data.UsersRepository
+import com.cocos.develop.coshub.data.model.UsersRepository
 import com.cocos.develop.coshub.ui.utils.setTint
 
 /**

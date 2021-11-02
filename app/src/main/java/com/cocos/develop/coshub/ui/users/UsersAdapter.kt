@@ -3,7 +3,7 @@ package com.cocos.develop.coshub.ui.users
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.databinding.ItemUserBinding
 import com.cocos.develop.coshub.data.domain.UserItemView
 import com.cocos.develop.coshub.data.domain.UserListPresenter

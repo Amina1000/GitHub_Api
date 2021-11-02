@@ -1,8 +1,7 @@
 package com.cocos.develop.coshub.data.datasource
 
-import com.cocos.develop.coshub.data.GithubUser
-import com.cocos.develop.coshub.data.UsersRepository
-import io.reactivex.rxjava3.core.Observable
+import com.cocos.develop.coshub.data.model.GithubUser
+import com.cocos.develop.coshub.data.model.UsersRepository
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

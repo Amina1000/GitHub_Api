@@ -1,8 +1,10 @@
 package com.cocos.develop.coshub
 
 import android.app.Application
+import androidx.room.Room
 import com.cocos.develop.coshub.data.datasource.GitHubApi
 import com.cocos.develop.coshub.data.domain.EventBus
+import com.cocos.develop.coshub.data.room.GithubDatabase
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.github.terrakok.cicerone.Cicerone
@@ -21,8 +23,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * 05.10.2021
  */
 const val BASE_URL = "https://api.github.com"
+const val DB_NAME = "GithubDB"
 
-class App:Application() {
+class App : Application() {
 
     //Временно до даггера положим это тут
     // навигация
@@ -32,18 +35,22 @@ class App:Application() {
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
 
+    // rx
     val eventBus = EventBus
-    // репозиторий
+
 
     //okhttp3
     private val okClient = OkHttpClient.Builder()
-    .addNetworkInterceptor(StethoInterceptor())
-    .build()
+        .addNetworkInterceptor(StethoInterceptor())
+        .build()
 
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
     }
+
+    // репозиторий
+    //api
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -58,5 +65,11 @@ class App:Application() {
             .build()
             .create(GitHubApi::class.java)
     }
+
+    //room
+    val gitHubDB
+        get() = Room
+            .databaseBuilder(this, GithubDatabase::class.java, DB_NAME)
+            .build()
 
 }

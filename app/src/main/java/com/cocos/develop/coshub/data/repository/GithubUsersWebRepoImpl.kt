@@ -1,7 +1,7 @@
 package com.cocos.develop.coshub.data.repository
 
-import com.cocos.develop.coshub.data.GithubUser
-import com.cocos.develop.coshub.data.UsersRepository
+import com.cocos.develop.coshub.data.model.GithubUser
+import com.cocos.develop.coshub.data.model.UsersRepository
 import com.cocos.develop.coshub.data.datasource.GitHubApi
 import com.cocos.develop.coshub.rx.SchedulerProvider
 import io.reactivex.rxjava3.core.Single
@@ -13,18 +13,18 @@ import io.reactivex.rxjava3.core.Single
  * 04.10.2021
  */
 
-class GithubUsersRepoImpl(
-    private val githubApi: GitHubApi,
-    private val schedulerProvider: SchedulerProvider
+class GithubUsersWebRepoImpl(
+    private val githubApi: GitHubApi
+
 ) : GithubUsersRepo {
 
     override fun githubUsers(): Single<List<GithubUser>> =
-        githubApi.getGitHubUsers().subscribeOn(schedulerProvider.io())
+        githubApi.getGitHubUsers()
 
     override fun userRepos(repoUrl: String): Single<List<UsersRepository>> =
-        githubApi.getUserRepos(repoUrl).subscribeOn(schedulerProvider.io())
+        githubApi.getUserRepos(repoUrl)
 
     override fun githubUser(login: String): Single<GithubUser> =
-        githubApi.getUserByLogin(login).subscribeOn(schedulerProvider.io())
+        githubApi.getUserByLogin(login)
 
 }

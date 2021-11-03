@@ -29,6 +29,7 @@ class GithubUserRepoCombinedImpl(
                     Single.fromCallable {
                         val roomUsers = githubUserEntityListMap(users)
                         localRepo.putGithubUser(roomUsers)
+                            .subscribe()
                         users
                     }
                 }
@@ -44,6 +45,7 @@ class GithubUserRepoCombinedImpl(
                             Single.fromCallable {
                                 val roomRepos = usersReposEntityMap(repos,userId)
                                 localRepo.putGithubRepos(roomRepos)
+                                    .subscribe()
                                 repos
                             }
                         }
@@ -60,6 +62,7 @@ class GithubUserRepoCombinedImpl(
                     Single.fromCallable {
                         val roomUser = githubUserEntityMap(user)
                         localRepo.putGithubUser(roomUser)
+                            .subscribe()
                         user
                     }
                 }

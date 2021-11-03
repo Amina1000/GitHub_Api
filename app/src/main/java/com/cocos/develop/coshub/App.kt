@@ -23,7 +23,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * 05.10.2021
  */
 const val BASE_URL = "https://api.github.com"
-const val DB_NAME = "GithubDB"
+const val DB_NAME = "githubDB"
 
 class App : Application() {
 

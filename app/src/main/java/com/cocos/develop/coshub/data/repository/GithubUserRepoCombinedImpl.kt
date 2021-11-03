@@ -4,6 +4,9 @@ import com.cocos.develop.coshub.data.domain.INetworkStatus
 import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.model.UsersRepository
 import com.cocos.develop.coshub.rx.SchedulerProvider
+import com.cocos.develop.coshub.ui.utils.githubUserEntityListMap
+import com.cocos.develop.coshub.ui.utils.githubUserEntityMap
+import com.cocos.develop.coshub.ui.utils.usersReposEntityMap
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -13,7 +16,7 @@ import io.reactivex.rxjava3.core.Single
  * 02.11.2021
  */
 class GithubUserRepoCombinedImpl(
-    private val localRepo: GithubUsersRepo,
+    private val localRepo: GithubLocalRepo,
     private val webRepo: GithubUsersRepo,
     private val networkStatus: INetworkStatus,
     private val schedulerProvider: SchedulerProvider
@@ -22,19 +25,30 @@ class GithubUserRepoCombinedImpl(
     override fun githubUsers(): Single<List<GithubUser>> =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
-                webRepo.githubUsers()
-                // преобразовать в тип entity и записать в базу insert
+                webRepo.githubUsers().flatMap { users ->
+                    Single.fromCallable {
+                        val roomUsers = githubUserEntityListMap(users)
+                        localRepo.putGithubUser(roomUsers)
+                        users
+                    }
+                }
             } else {
                 localRepo.githubUsers()
             }.subscribeOn(schedulerProvider.io())
         }
 
-    override fun userRepos(repoUrl: String): Single<List<UsersRepository>> =
+    override fun userRepos(repoUrl: String, userId:Int?): Single<List<UsersRepository>> =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
-                webRepo.userRepos(repoUrl)
-                // преобразовать в тип entity и записать в базу insert
-            } else {
+                webRepo.userRepos(repoUrl,userId).flatMap { repos ->
+                            Single.fromCallable {
+                                val roomRepos = usersReposEntityMap(repos,userId)
+                                localRepo.putGithubRepos(roomRepos)
+                                repos
+                            }
+                        }
+                }
+            else {
                 localRepo.userRepos(repoUrl)
             }.subscribeOn(schedulerProvider.io())
         }
@@ -42,8 +56,13 @@ class GithubUserRepoCombinedImpl(
     override fun githubUser(login: String): Single<GithubUser> =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
-                webRepo.githubUser(login)
-                // преобразовать в тип entity и записать в базу insert
+                webRepo.githubUser(login).flatMap { user ->
+                    Single.fromCallable {
+                        val roomUser = githubUserEntityMap(user)
+                        localRepo.putGithubUser(roomUser)
+                        user
+                    }
+                }
             } else {
                 localRepo.githubUser(login)
             }.subscribeOn(schedulerProvider.io())

@@ -1,8 +1,7 @@
-package com.cocos.develop.coshub.data
+package com.cocos.develop.coshub.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import com.squareup.moshi.JsonClass
 
 import com.squareup.moshi.Json
 

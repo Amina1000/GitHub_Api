@@ -1,12 +1,14 @@
 package com.cocos.develop.coshub.ui.profile
 
 import com.cocos.develop.coshub.App
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.domain.MinusLikeEvent
+import com.cocos.develop.coshub.data.domain.NetworkStatusImpl
 import com.cocos.develop.coshub.data.domain.PlusLikeEvent
-import com.cocos.develop.coshub.data.UsersRepository
-import com.cocos.develop.coshub.data.domain.AppState
-import com.cocos.develop.coshub.data.repository.GithubUsersRepoImpl
+import com.cocos.develop.coshub.data.model.UsersRepository
+import com.cocos.develop.coshub.data.repository.GithubUserRepoCombinedImpl
+import com.cocos.develop.coshub.data.repository.GithubUsersLocalRepoImpl
+import com.cocos.develop.coshub.data.repository.GithubUsersWebRepoImpl
 import com.cocos.develop.coshub.rx.SchedulerProvider
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -34,7 +36,12 @@ class ProfilePresenter(
 
     private var currentDisposable = CompositeDisposable()
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepoImpl = GithubUsersRepoImpl(app.api, schedulerProvider)
+    private val usersRepoImpl = GithubUserRepoCombinedImpl(
+        GithubUsersLocalRepoImpl(app.gitHubDB),
+        GithubUsersWebRepoImpl(app.api),
+        NetworkStatusImpl(app),
+        schedulerProvider
+    )
     val userRepoList = mutableListOf<UsersRepository>()
 
     private fun setUser() {
@@ -52,7 +59,7 @@ class ProfilePresenter(
 
     private fun setRepoList() {
         githubUser?.reposUrl?.let {
-            currentDisposable.add(usersRepoImpl.userRepos(it)
+            currentDisposable.add(usersRepoImpl.userRepos(it, githubUser.id)
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { userRepoListIn ->

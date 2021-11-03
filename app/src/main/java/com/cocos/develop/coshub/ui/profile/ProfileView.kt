@@ -1,6 +1,6 @@
 package com.cocos.develop.coshub.ui.profile
 
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.ui.common.ProgressView
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

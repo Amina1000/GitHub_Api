@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.ui.common.BackButtonListener
 import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage

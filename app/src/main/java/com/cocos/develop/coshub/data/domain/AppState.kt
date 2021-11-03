@@ -1,6 +1,6 @@
 package com.cocos.develop.coshub.data.domain
 
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 
 /**
  * homework com.cocos.develop.coshub.data.domain

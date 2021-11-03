@@ -1,6 +1,6 @@
 package com.cocos.develop.coshub
 
-import com.cocos.develop.coshub.data.GithubUser
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.ui.profile.ProfileFragment
 import com.cocos.develop.coshub.ui.users.UsersFragment
 import com.github.terrakok.cicerone.Screen

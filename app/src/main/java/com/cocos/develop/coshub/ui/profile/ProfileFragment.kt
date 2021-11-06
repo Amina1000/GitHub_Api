@@ -14,7 +14,6 @@ import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentProfileBinding
 import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.ui.common.BackButtonListener
-import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
 import com.cocos.develop.coshub.ui.utils.loadInfo
 import moxy.MvpAppCompatFragment
@@ -36,7 +35,7 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(
             gitHubUser,
-            requireActivity().app
+
         )
     }
     private var adapter: ProfileAdapter? = null

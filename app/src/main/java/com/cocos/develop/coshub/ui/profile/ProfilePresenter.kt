@@ -1,17 +1,17 @@
 package com.cocos.develop.coshub.ui.profile
 
 import com.cocos.develop.coshub.App
-import com.cocos.develop.coshub.data.model.GithubUser
+import com.cocos.develop.coshub.data.domain.EventBus
 import com.cocos.develop.coshub.data.domain.MinusLikeEvent
-import com.cocos.develop.coshub.data.domain.NetworkStatusImpl
 import com.cocos.develop.coshub.data.domain.PlusLikeEvent
+import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.model.UsersRepository
-import com.cocos.develop.coshub.data.repository.GithubUserRepoCombinedImpl
-import com.cocos.develop.coshub.data.repository.GithubUsersLocalRepoImpl
-import com.cocos.develop.coshub.data.repository.GithubUsersWebRepoImpl
+import com.cocos.develop.coshub.data.repository.GithubUsersRepo
 import com.cocos.develop.coshub.rx.SchedulerProvider
+import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * homework com.cocos.develop.coshub.ui.profile
@@ -20,12 +20,11 @@ import moxy.MvpPresenter
  * 05.10.2021
  */
 class ProfilePresenter(
-    private val githubUser: GithubUser?,
-    app: App
+    private val githubUser: GithubUser?
 ) : MvpPresenter<ProfileView>() {
 
-    private val router = app.router
-    private val eventBus = app.eventBus
+    private val router:Router by inject(Router::class.java)
+    private val eventBus by inject<EventBus>(EventBus::class.java)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -36,12 +35,7 @@ class ProfilePresenter(
 
     private var currentDisposable = CompositeDisposable()
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepoImpl = GithubUserRepoCombinedImpl(
-        GithubUsersLocalRepoImpl(app.gitHubDB),
-        GithubUsersWebRepoImpl(app.api),
-        NetworkStatusImpl(app),
-        schedulerProvider
-    )
+    private val usersRepoImpl : GithubUsersRepo by inject(GithubUsersRepo::class.java)
     val userRepoList = mutableListOf<UsersRepository>()
 
     private fun setUser() {

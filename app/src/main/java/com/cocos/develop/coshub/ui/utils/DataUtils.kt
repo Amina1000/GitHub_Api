@@ -19,11 +19,6 @@ fun errorMessage(context:Context?, message:String){
     Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
 }
 
-val Context.app: App
-    get() {
-        return  applicationContext as App
-    }
-
 fun githubUserListMap(users: List<GithubUserEntity>) =
     users.map {
         githubUserMap(it)

@@ -3,6 +3,10 @@ package com.cocos.develop.coshub
 import android.app.Application
 import androidx.room.Room
 import com.cocos.develop.coshub.data.datasource.GitHubApi
+import com.cocos.develop.coshub.data.di.apiModule
+import com.cocos.develop.coshub.data.di.application
+import com.cocos.develop.coshub.data.di.ciceroneModule
+import com.cocos.develop.coshub.data.di.repoModule
 import com.cocos.develop.coshub.data.domain.EventBus
 import com.cocos.develop.coshub.data.room.GithubDatabase
 import com.facebook.stetho.Stetho
@@ -12,6 +16,8 @@ import com.github.terrakok.cicerone.Router
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.GlobalContext.startKoin
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -22,54 +28,19 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * @author Amina
  * 05.10.2021
  */
-const val BASE_URL = "https://api.github.com"
-const val DB_NAME = "githubDB"
 
 class App : Application() {
-
-    //Временно до даггера положим это тут
-    // навигация
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
-
-    // rx
-    val eventBus = EventBus
-
-
-    //okhttp3
-    private val okClient = OkHttpClient.Builder()
-        .addNetworkInterceptor(StethoInterceptor())
-        .build()
 
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
+        // start Koin!
+        startKoin {
+            // declare used Android context
+            androidContext(this@App)
+            // declare modules
+            modules(application, ciceroneModule, repoModule, apiModule)
+        }
     }
-
-    // репозиторий
-    //api
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
-
-    val api: GitHubApi by lazy {
-
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okClient)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(GitHubApi::class.java)
-    }
-
-    //room
-    val gitHubDB
-        get() = Room
-            .databaseBuilder(this, GithubDatabase::class.java, DB_NAME)
-            .build()
 
 }

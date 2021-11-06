@@ -2,17 +2,16 @@ package com.cocos.develop.coshub.ui.users
 
 import com.cocos.develop.coshub.AndroidScreens
 import com.cocos.develop.coshub.App
-import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.domain.AppState
-import com.cocos.develop.coshub.data.domain.NetworkStatusImpl
 import com.cocos.develop.coshub.data.domain.UserItemView
 import com.cocos.develop.coshub.data.domain.UserListPresenter
-import com.cocos.develop.coshub.data.repository.GithubUserRepoCombinedImpl
-import com.cocos.develop.coshub.data.repository.GithubUsersLocalRepoImpl
-import com.cocos.develop.coshub.data.repository.GithubUsersWebRepoImpl
+import com.cocos.develop.coshub.data.model.GithubUser
+import com.cocos.develop.coshub.data.repository.GithubUsersRepo
 import com.cocos.develop.coshub.rx.SchedulerProvider
+import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * homework com.cocos.develop.coshub.ui.users
@@ -20,7 +19,7 @@ import moxy.MvpPresenter
  * @author Amina
  * 05.10.2021
  */
-class UsersPresenter(app: App) :
+class UsersPresenter() :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : UserListPresenter {
@@ -39,13 +38,8 @@ class UsersPresenter(app: App) :
     }
 
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepo = GithubUserRepoCombinedImpl(
-        GithubUsersLocalRepoImpl(app.gitHubDB),
-        GithubUsersWebRepoImpl(app.api),
-        NetworkStatusImpl(app),
-        schedulerProvider
-    )
-    private val router = app.router
+    private val usersRepo : GithubUsersRepo by inject(GithubUsersRepo::class.java)
+    private val router: Router by inject(Router::class.java)
 
     val usersListPresenter = UsersListPresenter()
     private var currentDisposable = CompositeDisposable()

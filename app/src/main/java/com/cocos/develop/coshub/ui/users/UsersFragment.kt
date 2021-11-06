@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentUsersBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
-import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -20,7 +19,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(requireActivity().app)
+        UsersPresenter()
     }
 
     private var adapter: UsersAdapter? = null

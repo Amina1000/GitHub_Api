@@ -1,5 +1,6 @@
 package com.cocos.develop.coshub.ui.users
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.FragmentUsersBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.app
 import com.cocos.develop.coshub.ui.utils.errorMessage
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -19,7 +21,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter()
+        UsersPresenter().apply {
+            requireActivity().app.appComponent.inject(this)
+        }
     }
 
     private var adapter: UsersAdapter? = null

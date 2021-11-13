@@ -15,9 +15,14 @@ import com.cocos.develop.coshub.data.room.GithubUserEntity
  * 14.10.2021
  */
 
-fun errorMessage(context:Context?, message:String){
-    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+fun errorMessage(context: Context?, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
+
+val Context.app: App
+    get() {
+        return applicationContext as App
+    }
 
 fun githubUserListMap(users: List<GithubUserEntity>) =
     users.map {
@@ -36,7 +41,7 @@ fun githubUserMap(githubUser: GithubUserEntity) = GithubUser(
 fun usersReposMap(repos: List<GithubRepositoryEntity>) =
     repos.map {
         UsersRepository(
-          it.htmlUrl,
+            it.htmlUrl,
             it.id,
             it.userId,
             it.name,
@@ -59,7 +64,7 @@ fun githubUserEntityListMap(users: List<GithubUser>) =
         githubUserEntityMap(it)
     }
 
-fun usersReposEntityMap(repos: List<UsersRepository>, userId:Int?) =
+fun usersReposEntityMap(repos: List<UsersRepository>, userId: Int?) =
     repos.map {
         GithubRepositoryEntity(
             it.htmlUrl,

@@ -7,25 +7,31 @@ import com.cocos.develop.coshub.AndroidScreens
 import com.cocos.develop.coshub.R
 import com.cocos.develop.coshub.databinding.ActivityScrollingBinding
 import com.cocos.develop.coshub.ui.common.BackButtonListener
+import com.cocos.develop.coshub.ui.utils.app
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView  {
 
     private lateinit var binding: ActivityScrollingBinding
     private val navigator = AppNavigator(this, R.id.container)
-    private val router:Router by inject()
-    private val navigatorHolder:NavigatorHolder by inject()
+    @Inject
+    lateinit var router:Router
+    @Inject
+    lateinit var navigatorHolder:NavigatorHolder
 
-    private val presenter by moxyPresenter { MainPresenter(router, AndroidScreens()) }
+    private val presenter by moxyPresenter { MainPresenter().apply {
+        app.appComponent.inject(this)
+    } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        app.appComponent.inject(this)
         binding = ActivityScrollingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()

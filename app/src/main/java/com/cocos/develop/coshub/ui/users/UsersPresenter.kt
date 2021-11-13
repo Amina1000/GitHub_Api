@@ -1,7 +1,7 @@
 package com.cocos.develop.coshub.ui.users
 
 import com.cocos.develop.coshub.AndroidScreens
-import com.cocos.develop.coshub.App
+import com.cocos.develop.coshub.data.di.AppComponent
 import com.cocos.develop.coshub.data.domain.AppState
 import com.cocos.develop.coshub.data.domain.UserItemView
 import com.cocos.develop.coshub.data.domain.UserListPresenter
@@ -11,7 +11,7 @@ import com.cocos.develop.coshub.rx.SchedulerProvider
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
-import org.koin.java.KoinJavaComponent.inject
+import javax.inject.Inject
 
 /**
  * homework com.cocos.develop.coshub.ui.users
@@ -38,8 +38,11 @@ class UsersPresenter() :
     }
 
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepo : GithubUsersRepo by inject(GithubUsersRepo::class.java)
-    private val router: Router by inject(Router::class.java)
+
+    @Inject
+    lateinit var usersRepo : GithubUsersRepo
+    @Inject
+    lateinit var router: Router
 
     val usersListPresenter = UsersListPresenter()
     private var currentDisposable = CompositeDisposable()

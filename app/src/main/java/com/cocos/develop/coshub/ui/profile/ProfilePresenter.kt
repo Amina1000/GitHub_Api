@@ -1,6 +1,5 @@
 package com.cocos.develop.coshub.ui.profile
 
-import com.cocos.develop.coshub.App
 import com.cocos.develop.coshub.data.domain.EventBus
 import com.cocos.develop.coshub.data.domain.MinusLikeEvent
 import com.cocos.develop.coshub.data.domain.PlusLikeEvent
@@ -11,7 +10,7 @@ import com.cocos.develop.coshub.rx.SchedulerProvider
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
-import org.koin.java.KoinJavaComponent.inject
+import javax.inject.Inject
 
 /**
  * homework com.cocos.develop.coshub.ui.profile
@@ -23,8 +22,10 @@ class ProfilePresenter(
     private val githubUser: GithubUser?
 ) : MvpPresenter<ProfileView>() {
 
-    private val router:Router by inject(Router::class.java)
-    private val eventBus by inject<EventBus>(EventBus::class.java)
+    @Inject
+    lateinit var router:Router
+    @Inject
+    lateinit var eventBus :EventBus
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -35,7 +36,8 @@ class ProfilePresenter(
 
     private var currentDisposable = CompositeDisposable()
     private val schedulerProvider: SchedulerProvider = SchedulerProvider()
-    private val usersRepoImpl : GithubUsersRepo by inject(GithubUsersRepo::class.java)
+    @Inject
+    lateinit var usersRepoImpl : GithubUsersRepo
     val userRepoList = mutableListOf<UsersRepository>()
 
     private fun setUser() {

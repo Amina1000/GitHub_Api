@@ -1,9 +1,9 @@
 package com.cocos.develop.coshub.data.repository
 
+import com.cocos.develop.coshub.data.datasource.GitHubApi
 import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.model.UsersRepository
-import com.cocos.develop.coshub.data.datasource.GitHubApi
-import com.cocos.develop.coshub.rx.SchedulerProvider
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -26,5 +26,9 @@ class GithubUsersWebRepoImpl(
 
     override fun githubUser(login: String): Single<GithubUser> =
         githubApi.getUserByLogin(login)
+
+    override fun updateCountLike(user: GithubUser): Completable {
+        TODO("Not yet implemented")
+    }
 
 }

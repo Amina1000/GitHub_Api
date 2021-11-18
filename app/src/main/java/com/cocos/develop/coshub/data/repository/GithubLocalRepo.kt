@@ -21,5 +21,6 @@ interface GithubLocalRepo {
     fun putGithubUser(users: List<GithubUserEntity>): Completable
     fun putGithubUser(user: GithubUserEntity): Completable
     fun putGithubRepos (repos:List<GithubRepositoryEntity>): Completable
+    fun putCountLike(countLike: Int, id:Int?): Completable
 
 }

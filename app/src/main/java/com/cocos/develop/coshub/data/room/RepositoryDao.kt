@@ -13,13 +13,13 @@ import io.reactivex.rxjava3.core.Single
 @Dao
 interface RepositoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(repo: GithubRepositoryEntity): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg repos: GithubRepositoryEntity):Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(repos: List<GithubRepositoryEntity>):Completable
 
     @Update

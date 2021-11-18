@@ -24,5 +24,6 @@ class GithubUserEntity(
     val organizationsUrl: String?,
     @ColumnInfo(name = "repos_url")
     val reposUrl: String?,
-    var like: Boolean = false
+    var like: Boolean = false,
+    var countLike:Int = 0
 )

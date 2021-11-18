@@ -3,10 +3,12 @@ package com.cocos.develop.coshub.data.repository
 import com.cocos.develop.coshub.data.domain.INetworkStatus
 import com.cocos.develop.coshub.data.model.GithubUser
 import com.cocos.develop.coshub.data.model.UsersRepository
+import com.cocos.develop.coshub.data.room.GithubUserEntity
 import com.cocos.develop.coshub.rx.SchedulerProvider
 import com.cocos.develop.coshub.ui.utils.githubUserEntityListMap
 import com.cocos.develop.coshub.ui.utils.githubUserEntityMap
 import com.cocos.develop.coshub.ui.utils.usersReposEntityMap
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -70,4 +72,9 @@ class GithubUserRepoCombinedImpl(
                 localRepo.githubUser(login)
             }.subscribeOn(schedulerProvider.io())
         }
+
+    override fun updateCountLike(user: GithubUser): Completable =
+       localRepo.putCountLike(user.countLike, user.id)
+           .subscribeOn(schedulerProvider.io())
+
 }

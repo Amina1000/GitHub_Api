@@ -48,6 +48,10 @@ class GithubUsersLocalRepoImpl(db: GithubDatabase) : GithubLocalRepo {
         return userDao.insert(user)
     }
 
+    override fun putCountLike(countLike: Int, id:Int?): Completable {
+        return userDao.updateCountLike(countLike,id)
+    }
+
     override fun putGithubRepos(repos: List<GithubRepositoryEntity>): Completable {
         return repositoryDao.insert(repos)
     }

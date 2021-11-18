@@ -56,7 +56,8 @@ fun githubUserEntityMap(githubUser: GithubUser) = GithubUserEntity(
     githubUser.login,
     githubUser.organizationsUrl,
     githubUser.reposUrl,
-    githubUser.like
+    githubUser.like,
+    githubUser.countLike
 )
 
 fun githubUserEntityListMap(users: List<GithubUser>) =
@@ -75,3 +76,13 @@ fun usersReposEntityMap(repos: List<UsersRepository>, userId: Int?) =
             it.likeCounter,
         )
     }
+
+fun userRepoEntityMap(repo: UsersRepository, userId: Int?) =
+    GithubRepositoryEntity(
+        repo.htmlUrl,
+        repo.id,
+        userId,
+        repo.name,
+        repo.description,
+        repo.likeCounter,
+    )

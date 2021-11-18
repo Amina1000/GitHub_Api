@@ -12,14 +12,17 @@ import io.reactivex.rxjava3.core.Single
  */
 @Dao
 interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(user: GithubUserEntity): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg users: GithubUserEntity):Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(users: List<GithubUserEntity>):Completable
+
+    @Query("UPDATE GithubUserEntity SET countLike=:countLike WHERE id = :id")
+    fun updateCountLike(countLike:Int, id:Int?):Completable
 
     @Update
     fun update(user: GithubUserEntity):Completable

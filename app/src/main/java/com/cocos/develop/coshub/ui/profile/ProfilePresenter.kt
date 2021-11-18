@@ -90,6 +90,15 @@ class ProfilePresenter(
                     }
                 }
             })
+        githubUser?.let{
+            it.countLike = total
+            currentDisposable.add(
+            usersRepoImpl.updateCountLike(it)
+                .observeOn(schedulerProvider.ui())
+                .subscribe()
+            )
+        }
+
         return total
     }
 
